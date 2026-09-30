@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Game_Env — Multiplayer Arena</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="join-screen">
+    <div class="card">
+      <h1>Game_Env</h1>
+      <p>A real-time multiplayer arena. Eat orbs to grow. Eat smaller players. Avoid bigger ones.</p>
+      <input id="name-input" maxlength="16" placeholder="Your name" autocomplete="off" />
+      <button id="play-btn">Play</button>
+      <p class="hint">Move with WASD / arrow keys, or drag with your mouse/finger.</p>
+    </div>
+  </div>
+
+  <div id="hud" class="hidden">
+    <div id="score-block">
+      <div id="score">Score: 0</div>
+      <div id="round-info">First to 150 wins</div>
+    </div>
+    <div id="leaderboard"></div>
+  </div>
+
+  <div id="death-screen" class="hidden">
+    <div class="card">
+      <h2 id="death-message">You were eaten</h2>
+      <button id="respawn-btn">Play again</button>
+    </div>
+  </div>
+
+  <div id="winner-screen" class="hidden">
+    <div id="confetti"></div>
+    <div class="card celebration">
+      <div class="trophy">🏆</div>
+      <h2 id="winner-message">Round over</h2>
+      <div id="winner-stats" class="winner-stats"></div>
+      <div class="winnerboard-title">Winnerboard</div>
+      <div id="winner-standings" class="standings"></div>
+      <p class="hint">Next round starts automatically…</p>
+    </div>
+  </div>
+
+  <canvas id="game"></canvas>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/client.js"></script>
+</body>
+</html>

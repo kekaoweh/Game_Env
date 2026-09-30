@@ -1,0 +1,227 @@
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0f1115;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #e5e7eb;
+}
+
+canvas#game {
+  position: fixed;
+  inset: 0;
+  display: block;
+}
+
+.hidden { display: none !important; }
+
+#join-screen, #death-screen, #winner-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 17, 21, 0.85);
+  z-index: 10;
+}
+
+.card {
+  background: #181b22;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 32px 36px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.card h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: #e8593a;
+}
+
+.card p {
+  margin: 0 0 16px;
+  color: #9ca3af;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.card .hint {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+#name-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #0f1115;
+  color: #e5e7eb;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+button {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #e8593a;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:hover { background: #d94f31; }
+
+#hud {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#score-block {
+  background: rgba(24,27,34,0.8);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+
+#score {
+  font-weight: 600;
+}
+
+#round-info {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.standings {
+  margin: 12px 0;
+  font-size: 14px;
+  text-align: left;
+}
+.standings .lb-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.standings .lb-row.gold { background: rgba(245, 181, 58, 0.15); color: #f5b53a; font-weight: 700; }
+.standings .lb-row.silver { background: rgba(203, 213, 225, 0.12); color: #cbd5e1; font-weight: 600; }
+.standings .lb-row.bronze { background: rgba(217, 119, 87, 0.12); color: #d97757; font-weight: 600; }
+
+.card.celebration {
+  width: 380px;
+  position: relative;
+  z-index: 2;
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.trophy {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 4px;
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.winner-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 14px 0;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.winner-stats .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.winner-stats .stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e8593a;
+}
+.winner-stats .stat-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.winnerboard-title {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+  margin-top: 4px;
+}
+
+#confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 8px;
+  height: 14px;
+  opacity: 0.9;
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes pop-in {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) rotate(720deg); opacity: 0.7; }
+}
+
+#leaderboard {
+  background: rgba(24,27,34,0.8);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  min-width: 160px;
+  font-size: 13px;
+}
+#leaderboard .lb-title {
+  color: #9ca3af;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+#leaderboard .lb-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+}

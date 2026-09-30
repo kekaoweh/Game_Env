@@ -1,0 +1,11 @@
+# This repo's working directory is a shared Universe session folder that
+# also holds unrelated session-internal state (schedules.json, mail.jsonl,
+# crew.json, uploads/, artifacts/, ...). Allowlist what belongs in the game
+# repo instead of trying to blocklist everything else — a blocklist has
+# already missed things twice.
+*
+!game/
+!game/**
+!README.md
+!.gitignore
+game/node_modules/
