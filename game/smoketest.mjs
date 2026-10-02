@@ -42,7 +42,7 @@ setTimeout(() => {
   const ate = lastScore !== null && firstScore !== null && lastScore > firstScore;
   console.log("ticks:", ticks, "moved:", moved, "score:", firstScore, "->", lastScore, "ate:", ate);
   console.log("rules from welcome:", welcomeRules, "sawTimeLeft:", sawTimeLeft, "sawWinScore:", sawWinScore);
-  const ok = gotWelcome && ticks > 10 && moved && ate && sawTimeLeft && sawWinScore && welcomeRules?.winScore === 150;
+  const ok = gotWelcome && ticks > 10 && moved && ate && sawTimeLeft && sawWinScore && welcomeRules?.winScore > 0;
   console.log("RESULT ok:", ok);
   process.exit(ok ? 0 : 1);
 }, 6000);

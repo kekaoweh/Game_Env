@@ -7,23 +7,31 @@ first load can take 30-60s to spin back up.)
 
 A real-time, server-backed multiplayer arena game.
 
-Players move a circle around a shared world, eating orbs to grow and eating
-smaller players on contact — bigger players move slightly slower, so growth
-is a trade-off.
+Players move a circle around a shared world, growing by eating orbs that
+match their own color, and eating smaller players on contact — bigger players
+move slightly slower, so growth is a trade-off.
+
+Every orb within range gets pulled toward whoever's nearest, matching color
+or not, so collecting still feels snappy — but only a same-color orb actually
+gets eaten and scores. A wrong-color orb just clings nearby until you move on.
+Your color is shown in the HUD, and orbs matching it get a white ring so
+they're easy to spot at a glance.
 
 ## How you win
 
 Each round runs on a clock, and ends the instant either condition is hit:
 
-- **Score race:** first player to reach **150 points** wins immediately.
-- **Clock:** if nobody hits 150, the round ends after **5 minutes** and
+- **Score race:** first player to reach **100 points** wins immediately.
+- **Clock:** if nobody hits 100, the round ends after **3 minutes** and
   whoever has the most points wins.
 
-When a round ends, everyone sees the winner and the top 5 standings for 8
-seconds, then scores and positions reset and the next round starts
-automatically — no need to reconnect. All three numbers (target score, round
-length, intermission length) are configurable via `WIN_SCORE`,
-`ROUND_DURATION_MS` and `INTERMISSION_MS` environment variables on the server.
+When a round ends, a celebration screen pops: a bouncing trophy, confetti,
+how long the round took, how many dots were eaten in total, and the top 5
+winnerboard (gold/silver/bronze highlighted). It shows for 8 seconds, then
+scores and positions reset and the next round starts automatically — no need
+to reconnect. All three numbers (target score, round length, intermission
+length) are configurable via `WIN_SCORE`, `ROUND_DURATION_MS` and
+`INTERMISSION_MS` environment variables on the server.
 
 ## Stack
 

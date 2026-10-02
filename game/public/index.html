@@ -10,7 +10,7 @@
   <div id="join-screen">
     <div class="card">
       <h1>Game_Env</h1>
-      <p>A real-time multiplayer arena. Eat orbs to grow. Eat smaller players. Avoid bigger ones.</p>
+      <p>A real-time multiplayer arena. Eat orbs that match your color to grow. Eat smaller players. Avoid bigger ones.</p>
       <input id="name-input" maxlength="16" placeholder="Your name" autocomplete="off" />
       <button id="play-btn">Play</button>
       <p class="hint">Move with WASD / arrow keys, or drag with your mouse/finger.</p>
@@ -20,6 +20,7 @@
   <div id="hud" class="hidden">
     <div id="score-block">
       <div id="score">Score: 0</div>
+      <div id="my-color">Your color: <span id="color-swatch"></span></div>
       <div id="round-info">First to 150 wins</div>
     </div>
     <div id="leaderboard"></div>

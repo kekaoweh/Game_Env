@@ -8,7 +8,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
 
 const WORLD = { width: 3000, height: 3000 };
-const MAX_ORBS = 250;
+// Only same-color orbs are collectible now (see the eat loop below), so the
+// field carries more orbs than before to keep enough of your color around.
+const MAX_ORBS = 350;
 const ORB_RADIUS = 6;
 const BASE_RADIUS = 16;
 const SPEED = 260; // px/sec at base size
@@ -25,8 +27,8 @@ const ORB_ATTRACT_SPEED = 480; // px/sec
 
 // Win conditions: a round ends the instant someone hits WIN_SCORE, or when
 // the clock runs out — whichever comes first. Highest score wins the round.
-const WIN_SCORE = Number(process.env.WIN_SCORE) || 150;
-const ROUND_DURATION_MS = Number(process.env.ROUND_DURATION_MS) || 5 * 60 * 1000; // 5 minutes
+const WIN_SCORE = Number(process.env.WIN_SCORE) || 100;
+const ROUND_DURATION_MS = Number(process.env.ROUND_DURATION_MS) || 3 * 60 * 1000; // 3 minutes
 const INTERMISSION_MS = Number(process.env.INTERMISSION_MS) || 8 * 1000; // pause between rounds showing the winner
 
 let roundStartedAt = Date.now();
@@ -170,8 +172,10 @@ setInterval(() => {
     p.y = Math.min(WORLD.height, Math.max(0, p.y + p.dy * speed * dt));
   }
 
-  // orbs: eaten well before an exact overlap, and pulled toward whoever's
-  // nearest once in range, so collecting feels fast rather than fiddly
+  // orbs: any nearby orb gets pulled toward the nearest player (that's the
+  // "absorbing from being close" feel) — but it's only actually eaten, and
+  // only counts, if its color matches that player's. A different-colored
+  // orb just clings nearby instead of scoring.
   for (const orb of orbs.values()) {
     let nearest = null;
     let nearestD = Infinity;
@@ -184,7 +188,8 @@ setInterval(() => {
       }
     }
     if (!nearest) continue;
-    if (nearestD < nearest.r + ORB_RADIUS + PICKUP_BONUS) {
+    const matchesColor = orb.color === nearest.color;
+    if (matchesColor && nearestD < nearest.r + ORB_RADIUS + PICKUP_BONUS) {
       orbs.delete(orb.id);
       nearest.score += 1;
       dotsEatenThisRound += 1;

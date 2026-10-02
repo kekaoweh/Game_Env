@@ -15,6 +15,7 @@ const hud = document.getElementById("hud");
 const scoreEl = document.getElementById("score");
 const leaderboardEl = document.getElementById("leaderboard");
 const roundInfoEl = document.getElementById("round-info");
+const colorSwatchEl = document.getElementById("color-swatch");
 const nameInput = document.getElementById("name-input");
 const playBtn = document.getElementById("play-btn");
 const respawnBtn = document.getElementById("respawn-btn");
@@ -185,12 +186,17 @@ function draw() {
   ctx.lineWidth = 4;
   ctx.strokeRect(0, 0, world.width, world.height);
 
-  // orbs
+  // orbs — matching-color ones get a bright ring so they're easy to spot
   for (const orb of latestState.orbs) {
     ctx.beginPath();
     ctx.fillStyle = orb.color;
     ctx.arc(orb.x, orb.y, 6, 0, Math.PI * 2);
     ctx.fill();
+    if (me && orb.color === me.color) {
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "white";
+      ctx.stroke();
+    }
   }
 
   // players
@@ -216,6 +222,7 @@ function draw() {
   // HUD
   if (me) {
     scoreEl.textContent = `Score: ${me.score} / ${latestState.winScore ?? rules.winScore}`;
+    colorSwatchEl.style.background = me.color;
   }
   const secondsLeft = Math.ceil((latestState.timeLeftMs ?? rules.roundDurationMs) / 1000);
   const mm = Math.floor(secondsLeft / 60);
